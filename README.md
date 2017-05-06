@@ -29,14 +29,16 @@ After the box starts, you can access it from http://192.168.33.44/ in your brows
 The document root is in the `public` subdirectory.
 
 #### MailCatcher
-Any email your application sends are caught by MailCatcher, which can be accessed from:
+Any emails your application sends are caught by MailCatcher, which can be accessed from:
 http://192.168.33.44:1080
 
 #### MySQL
 Connection details for the MySQL database are:
+
 **database:** ezlamp
 **user:** root
 **password:** 123
+
 phpMyAdmin can be accessed from http://192.168.33.44/phpmyadmin
 
 ## Configuration
@@ -84,7 +86,7 @@ You can add additional domains, by adding the following provisioning shell to th
 ```
 The above example would add Apache virtual hosts for site1.local and site2.local.  The document roots for these domains would be site1.local/public and site2.local/public respectively.
 
-This example was taken from [scotchbox](https://scotch.io/bar-talk/announcing-scotch-box-2-0-our-dead-simple-vagrant-lamp-stack-improved#provisioning).  The other provisioning examples might work with ezLAMP as well, although, I have not tried.
+This example was taken from [scotchbox](https://scotch.io/bar-talk/announcing-scotch-box-2-0-our-dead-simple-vagrant-lamp-stack-improved#provisioning).  The other provisioning examples might work with ezLAMP as well, although, I have not tested these.
 
 
 
