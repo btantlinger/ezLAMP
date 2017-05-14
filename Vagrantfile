@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "btantlinger/ezlamp"
 
-  #config.vm.network :forwarded_port, guest: 80, host: 8001
+  config.vm.network :forwarded_port, guest: 80, host: 8001, auto_correct: true
   # Create a private network, which allows host-only access to the machine using a specific IP.
   config.vm.network "private_network", ip: "192.168.33.44"
 
