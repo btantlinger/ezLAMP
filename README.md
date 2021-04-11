@@ -1,17 +1,19 @@
-# ezLAMP
+# ezMage
 
-A basic preprovisioned dev LAMP box in the spirit of [ScotchBox](https://box.scotch.io/) which includes:
+A basic preprovisioned LAMP development environment
 
-- Ubuntu 16.04.4
-- Apache 2.4
-- MySQL 5.7
-- PHP 7
+- Ubuntu 20.04
+- Apache
+- redis
+- elasticsearch 7
+- MySQL 8
+- PHP 7.4
 - composer
 - Xdebug
-- MailCatcher
-- phpMyAdmin
+- MailHog
 - node & npm
-- Gulp, Grunt, Bower, Webpack
+- Gulp, Grunt
+- phpMyAdmin
 
 ## Start up ezLAMP
 Assuming that VirtualBox (https://www.virtualbox.org/) and Vagrant (https://www.vagrantup.com/) are already installed on your machine...
@@ -22,72 +24,34 @@ Assuming that VirtualBox (https://www.virtualbox.org/) and Vagrant (https://www.
 
 ## Using ezLAMP
 
-After the box starts, you can access it from http://192.168.33.44/ in your browser.  You may also access it from a local domain such as http://ezlamp.local or http://yourdomain.local by setting up any local domains in your hosts file. E.g:
+The default configuration of the box uses the ip 192.168.33.44 and domain ezlamp-dev.local.  The webroot, domain name, and various other options can be changed in the provision.sh shell file.
 
-`192.168.33.44 ezlamp.local yourdomain.local`
 
-The document root is in the `public` subdirectory.
+You should make an entry in your /etc/hosts file for the domain. E.g
 
-#### MailCatcher
-Any emails your application sends are caught by MailCatcher, which can be accessed from:
-http://192.168.33.44:1080
+`192.168.33.44 ezlamp-dev.local`
+
+
+#### MailHog
+Any emails your application sends are caught by MailHog, which can be accessed from:
+http://192.168.33.44:8025
 
 #### MySQL
 Connection details for the MySQL database are:
 
 **database:** ezlamp
+**user:** admin
+**password:** 123
+
+#### phpMyAdmin
+
+http://192.168.33.44/phpmyadmin
+
 **user:** root
 **password:** 123
 
-phpMyAdmin can be accessed from http://192.168.33.44/phpmyadmin
-
-## Configuration
-There's not much to configure with ezLAMP.  Simply edit the Vagrantfile to make any configuration changes you might require.
 
 #### IP Address
-You can change the ip of the box by editing the following line in the `Vagrantfile` and replacing 192.168.33.44 with the ip you'd like to use:
+You can change the ip of the box by editing the following line in the `Vagrantfile` and replacing 192.168.33.23 with the ip you'd like to use:
 
-`config.vm.network "private_network", ip: "192.168.33.44"`
-
-#### Multiple Domains
-You can add additional domains, by adding the following provisioning shell to the Vagrantfile:
-
-```
-     config.vm.provision "shell", inline: <<-SHELL
-
-        ## Only thing you probably really care about is right here
-        DOMAINS=("site1.local" "site2.local")
-
-        ## Loop through all sites
-        for ((i=0; i < ${#DOMAINS[@]}; i++)); do
-
-            ## Current Domain
-            DOMAIN=${DOMAINS[$i]}
-
-            echo "Creating directory for $DOMAIN..."
-            mkdir -p /var/www/$DOMAIN/public
-
-            echo "Creating vhost config for $DOMAIN..."
-            sudo cp /etc/apache2/sites-available/ezlamp.local.conf /etc/apache2/sites-available/$DOMAIN.conf
-
-            echo "Updating vhost config for $DOMAIN..."
-            sudo sed -i s,ezlamp.local,$DOMAIN,g /etc/apache2/sites-available/$DOMAIN.conf
-            sudo sed -i s,/var/www/public,/var/www/$DOMAIN/public,g /etc/apache2/sites-available/$DOMAIN.conf
-
-            echo "Enabling $DOMAIN. Will probably tell you to restart Apache..."
-            sudo a2ensite $DOMAIN.conf
-
-            echo "So let's restart apache..."
-            sudo service apache2 restart
-
-        done
-
-    SHELL
-```
-The above example would add Apache virtual hosts for site1.local and site2.local.  The document roots for these domains would be site1.local/public and site2.local/public respectively.
-
-This example was taken from [scotchbox](https://scotch.io/bar-talk/announcing-scotch-box-2-0-our-dead-simple-vagrant-lamp-stack-improved#provisioning).  The other provisioning examples might work with ezLAMP as well, although, I have not tested these.
-
-
-
- 
+`config.vm.network "private_network", ip: "192.168.33.23"`
