@@ -1,4 +1,4 @@
-# ezMage
+# ezLAMP
 
 A basic preprovisioned LAMP development environment
 
